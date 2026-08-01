@@ -15,7 +15,7 @@ export const getMenuProducts = async (): Promise<Product[]> => {
   return data.products;
 };
 
-export const getMenuProductById = async (
+export const getMenuProductBySlug = async (
   slug: string,
 ): Promise<Product | undefined> => {
   const products = await getMenuProducts();
