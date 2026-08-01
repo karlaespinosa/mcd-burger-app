@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CartButton } from "./CartButton";
 
 export const Navbar = () => {
   return (
@@ -27,26 +28,7 @@ export const Navbar = () => {
           </div>
         </Link>
 
-        <Link
-          href="/cart"
-          aria-label="View shopping cart"
-          className="group relative flex items-center gap-3 rounded-full border border-neutral-800 bg-neutral-950 px-4 py-2.5 transition-all duration-300 hover:border-lime-400/50 hover:bg-neutral-900"
-        >
-          <span
-            aria-hidden="true"
-            className="text-xl transition-transform duration-300 group-hover:scale-110"
-          >
-            🛒
-          </span>
-
-          <span className="hidden text-sm font-semibold text-neutral-200 sm:inline">
-            Cart
-          </span>
-
-          <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-lime-400 px-1.5 text-xs font-bold text-black">
-            0
-          </span>
-        </Link>
+        <CartButton />
       </div>
     </nav>
   );

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { formatPrice } from "@/lib/format-price";
 import { getMenuProductBySlug, getMenuProducts } from "@/lib/products";
 
+import { AddToCartButton } from "@/components";
+
 interface Props {
   params: Promise<{
     slug: string;
@@ -66,12 +68,7 @@ export default async function ProductPage({ params }: Props) {
             </span>
           </div>
 
-          <button
-            type="button"
-            className="mt-10 w-full rounded-full bg-lime-400 px-6 py-4 text-lg font-bold text-black transition hover:bg-lime-300 md:w-auto md:min-w-72 cursor-pointer"
-          >
-            Add to cart
-          </button>
+          <AddToCartButton productId={product.id} productName={product.name} />
         </div>
       </article>
     </main>

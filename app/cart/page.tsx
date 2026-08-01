@@ -1,6 +1,11 @@
 import Link from "next/link";
 
-export default function CartPage() {
+import { CartContent } from "@/components";
+import { getMenuProducts } from "@/lib/products";
+
+export default async function CartPage() {
+  const products = await getMenuProducts();
+
   return (
     <main className="min-h-screen bg-black px-5 py-10 text-white sm:px-8">
       <section className="mx-auto w-full max-w-6xl">
@@ -23,32 +28,7 @@ export default function CartPage() {
           </Link>
         </header>
 
-        <section className="overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900">
-          <div className="flex min-h-96 flex-col items-center justify-center px-6 py-16 text-center">
-            <div
-              aria-hidden="true"
-              className="flex h-16 w-16 items-center justify-center rounded-2xl bg-neutral-800 text-3xl"
-            >
-              🛒
-            </div>
-
-            <h2 className="mt-6 text-2xl font-bold text-white">
-              Your cart is empty
-            </h2>
-
-            <p className="mt-3 max-w-md leading-7 text-neutral-400">
-              Add a burger, fries, or another item from the menu to begin your
-              order.
-            </p>
-
-            <Link
-              href="/"
-              className="mt-8 inline-flex h-12 items-center justify-center rounded-full bg-lime-400 px-7 font-bold text-black transition-colors hover:bg-lime-300"
-            >
-              Browse menu
-            </Link>
-          </div>
-        </section>
+        <CartContent products={products} />
       </section>
     </main>
   );

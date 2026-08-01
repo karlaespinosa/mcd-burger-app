@@ -1,10 +1,13 @@
-import type { Product } from "./product";
+export type CartItems = Record<string, number>;
 
-export interface CartItem {
-  product: Product;
-  quantity: number;
-}
+export interface CartStore {
+  items: CartItems;
+  hasHydrated: boolean;
 
-export interface CartState {
-  items: CartItem[];
+  addProduct: (productId: string) => void;
+  decreaseProduct: (productId: string) => void;
+  removeProduct: (productId: string) => void;
+  clearCart: () => void;
+
+  setHasHydrated: (hasHydrated: boolean) => void;
 }
