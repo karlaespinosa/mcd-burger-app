@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { formatPrice } from "@/lib/format-price";
 import { useCartStore } from "@/store/cart-store";
+import { Dialog } from "@/components";
 import type { Product } from "@/types/product";
 
 interface CartItemProps {
@@ -48,14 +49,21 @@ export const CartItem = ({ product, quantity }: CartItemProps) => {
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={handleRemove}
-            aria-label={`Remove ${product.name} from cart`}
-            className="cursor-pointer rounded-full p-2 text-neutral-500 transition hover:bg-neutral-800 hover:text-red-400"
-          >
-            <Trash2 aria-hidden="true" className="h-5 w-5" />
-          </button>
+          <Dialog
+            title="Remove item?"
+            description={`Are you sure you want to remove ${product.name} from your cart?`}
+            confirmLabel="Remove"
+            onConfirm={handleRemove}
+            trigger={
+              <button
+                type="button"
+                aria-label={`Remove ${product.name} from cart`}
+                className="cursor-pointer rounded-full p-2 text-neutral-500 transition hover:bg-neutral-800 hover:text-red-400"
+              >
+                <Trash2 aria-hidden="true" className="h-5 w-5" />
+              </button>
+            }
+          />
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4">

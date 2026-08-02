@@ -13,3 +13,4 @@ export { CartSkeleton } from "./cart/CartSkeleton";
 
 export { QuantityStepper } from "./shared/QuantityStepper";
 export { AddToCartButton } from "./shared/AddToCartButton";
+export { Dialog } from "./shared/Dialog";

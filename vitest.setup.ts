@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 
 import { cleanup } from "@testing-library/react";
-import { afterEach, beforeEach, vi } from "vitest";
+import { afterEach, beforeAll, beforeEach, vi } from "vitest";
 
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
@@ -39,6 +39,24 @@ Object.defineProperty(window, "localStorage", {
 Object.defineProperty(globalThis, "localStorage", {
   value: localStorageMock,
   configurable: true,
+});
+
+beforeAll(() => {
+  if (!HTMLDialogElement.prototype.showModal) {
+    HTMLDialogElement.prototype.showModal = vi.fn(function (
+      this: HTMLDialogElement,
+    ) {
+      this.open = true;
+    });
+  }
+
+  if (!HTMLDialogElement.prototype.close) {
+    HTMLDialogElement.prototype.close = vi.fn(function (
+      this: HTMLDialogElement,
+    ) {
+      this.open = false;
+    });
+  }
 });
 
 beforeEach(() => {

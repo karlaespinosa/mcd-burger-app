@@ -79,7 +79,7 @@ describe("CartItem", () => {
     expect(useCartStore.getState().items[mockProduct.id]).toBe(1);
   });
 
-  it("removes the product from the cart", async () => {
+  it("removes the product from the cart after confirmation", async () => {
     const user = userEvent.setup();
 
     render(<CartItem product={mockProduct} quantity={2} />);
@@ -90,10 +90,22 @@ describe("CartItem", () => {
       }),
     );
 
+    expect(
+      screen.getByRole("heading", {
+        name: /remove item/i,
+      }),
+    ).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /^remove$/i,
+      }),
+    );
+
     expect(useCartStore.getState().items[mockProduct.id]).toBeUndefined();
   });
 
-  it("shows a toast after removing the product", async () => {
+  it("shows a toast after confirming product removal", async () => {
     const user = userEvent.setup();
 
     render(<CartItem product={mockProduct} quantity={2} />);
@@ -101,6 +113,12 @@ describe("CartItem", () => {
     await user.click(
       screen.getByRole("button", {
         name: `Remove ${mockProduct.name} from cart`,
+      }),
+    );
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /^remove$/i,
       }),
     );
 

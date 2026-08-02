@@ -7,6 +7,7 @@ import type { Product } from "@/types/product";
 import { CartItem } from "./CartItem";
 import { EmptyCart } from "./EmptyCart";
 import { CartSkeleton } from "./CartSkeleton";
+import { Dialog } from "../shared/Dialog";
 import {
   getCartItems,
   getCartTotalQuantity,
@@ -44,13 +45,20 @@ export const CartContent = ({ products }: CartContentProps) => {
             {totalQuantity} {totalQuantity === 1 ? "item" : "items"}
           </p>
 
-          <button
-            type="button"
-            onClick={clearCart}
-            className="cursor-pointer text-sm font-semibold text-neutral-400 transition hover:text-red-400"
-          >
-            Clear cart
-          </button>
+          <Dialog
+            title="Remove items?"
+            description={`Are you sure you want to remove all from your cart?`}
+            confirmLabel="Remove"
+            onConfirm={clearCart}
+            trigger={
+              <button
+                type="button"
+                className="cursor-pointer text-sm font-semibold text-neutral-400 transition hover:text-red-400"
+              >
+                Clear cart
+              </button>
+            }
+          />
         </div>
 
         <div className="space-y-4">
