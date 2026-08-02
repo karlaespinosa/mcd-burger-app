@@ -18,6 +18,14 @@ export const useCartStore = create<CartStore>()(
           },
         })),
 
+      addProductsBatch: (productId, quantity) =>
+        set((state) => ({
+          items: {
+            ...state.items,
+            [productId]: (state.items[productId] ?? 0) + quantity,
+          },
+        })),
+
       decreaseProduct: (productId) =>
         set((state) => {
           const currentQuantity = state.items[productId] ?? 0;

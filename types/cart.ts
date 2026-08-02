@@ -5,9 +5,9 @@ export interface CartStore {
   hasHydrated: boolean;
 
   addProduct: (productId: string) => void;
+  addProductsBatch: (productId: string, quantity: number) => void;
   decreaseProduct: (productId: string) => void;
   removeProduct: (productId: string) => void;
   clearCart: () => void;
-
   setHasHydrated: (hasHydrated: boolean) => void;
 }

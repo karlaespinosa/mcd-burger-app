@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { AddToCartButton } from "@/components/products/AddToCartButton";
+import { AddToCartButton } from "@/components";
 import { useCartStore } from "@/store/cart-store";
 import { mockProduct } from "@/tests/mocks/product";
 
@@ -26,7 +26,7 @@ describe("AddToCartButton", () => {
     });
   });
 
-  it("renders the add to cart button", () => {
+  it("renders the quantity stepper and add to cart button", () => {
     render(
       <AddToCartButton
         productId={mockProduct.id}
@@ -39,9 +39,23 @@ describe("AddToCartButton", () => {
         name: /add to cart/i,
       }),
     ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("button", {
+        name: `Add quantity of ${mockProduct.name}`,
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("button", {
+        name: `Remove quantity of ${mockProduct.name}`,
+      }),
+    ).toBeInTheDocument();
+
+    expect(screen.getByText("1")).toBeInTheDocument();
   });
 
-  it("adds the product when clicked", async () => {
+  it("adds one product by default", async () => {
     const user = userEvent.setup();
 
     render(
@@ -62,7 +76,37 @@ describe("AddToCartButton", () => {
     });
   });
 
-  it("shows a success toast after adding the product", async () => {
+  it("increases the quantity before adding the product", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <AddToCartButton
+        productId={mockProduct.id}
+        productName={mockProduct.name}
+      />,
+    );
+
+    const incrementButton = screen.getByRole("button", {
+      name: `Add quantity of ${mockProduct.name}`,
+    });
+
+    await user.click(incrementButton);
+    await user.click(incrementButton);
+
+    expect(screen.getByText("3")).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /add to cart/i,
+      }),
+    );
+
+    expect(useCartStore.getState().items).toEqual({
+      [mockProduct.id]: 3,
+    });
+  });
+
+  it("decreases the selected quantity", async () => {
     const user = userEvent.setup();
 
     render(
@@ -74,12 +118,67 @@ describe("AddToCartButton", () => {
 
     await user.click(
       screen.getByRole("button", {
+        name: `Add quantity of ${mockProduct.name}`,
+      }),
+    );
+
+    expect(screen.getByText("2")).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", {
+        name: `Remove quantity of ${mockProduct.name}`,
+      }),
+    );
+
+    expect(screen.getByText("1")).toBeInTheDocument();
+  });
+
+  it("does not decrease the quantity below one", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <AddToCartButton
+        productId={mockProduct.id}
+        productName={mockProduct.name}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole("button", {
+        name: `Remove quantity of ${mockProduct.name}`,
+      }),
+    );
+
+    expect(screen.getByText("1")).toBeInTheDocument();
+  });
+
+  it("shows a success toast with the selected quantity", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <AddToCartButton
+        productId={mockProduct.id}
+        productName={mockProduct.name}
+      />,
+    );
+
+    const incrementButton = screen.getByRole("button", {
+      name: `Add quantity of ${mockProduct.name}`,
+    });
+
+    await user.click(incrementButton);
+    await user.click(incrementButton);
+
+    await user.click(
+      screen.getByRole("button", {
         name: /add to cart/i,
       }),
     );
 
+    expect(toastSuccessMock).toHaveBeenCalledOnce();
+
     expect(toastSuccessMock).toHaveBeenCalledWith(
-      `${mockProduct.name} added to your cart.`,
+      `3 ${mockProduct.name} added to your cart.`,
     );
   });
 });

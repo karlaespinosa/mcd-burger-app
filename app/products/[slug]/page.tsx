@@ -107,8 +107,12 @@ export default async function ProductPage({ params }: Props) {
               🔥 {product.calorie} Calories
             </span>
           </div>
-
-          <AddToCartButton productId={product.id} productName={product.name} />
+          <div className="mt-6">
+            <AddToCartButton
+              productId={product.id}
+              productName={product.name}
+            />
+          </div>
         </div>
       </article>
     </main>
