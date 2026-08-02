@@ -10,6 +10,7 @@ export { CartContent } from "./cart/CartContent";
 export { CartItem } from "./cart/CartItem";
 export { EmptyCart } from "./cart/EmptyCart";
 export { CartSkeleton } from "./cart/CartSkeleton";
+export { CheckoutButton } from "./cart/CheckoutButton";
 
 export { QuantityStepper } from "./shared/QuantityStepper";
 export { AddToCartButton } from "./shared/AddToCartButton";

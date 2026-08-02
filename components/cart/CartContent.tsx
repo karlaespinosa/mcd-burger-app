@@ -8,6 +8,8 @@ import { CartItem } from "./CartItem";
 import { EmptyCart } from "./EmptyCart";
 import { CartSkeleton } from "./CartSkeleton";
 import { Dialog } from "../shared/Dialog";
+import { CheckoutButton } from "./CheckoutButton";
+
 import {
   getCartItems,
   getCartTotalQuantity,
@@ -89,6 +91,9 @@ export const CartContent = ({ products }: CartContentProps) => {
           <span className="text-2xl font-bold text-lime-400">
             {formatPrice(subtotal)}
           </span>
+        </div>
+        <div className="mt-6">
+          <CheckoutButton />
         </div>
       </aside>
     </div>
