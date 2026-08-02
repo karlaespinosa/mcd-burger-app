@@ -49,7 +49,7 @@ export const CartContent = ({ products }: CartContentProps) => {
 
           <Dialog
             title="Remove items?"
-            description={`Are you sure you want to remove all from your cart?`}
+            description={`Are you sure you want to remove all products from your cart?`}
             confirmLabel="Remove"
             onConfirm={clearCart}
             trigger={
