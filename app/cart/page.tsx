@@ -1,7 +1,20 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import { CartContent } from "@/components";
 import { getMenuProducts } from "@/lib/products";
+
+export const metadata: Metadata = {
+  title: "Shopping Cart",
+
+  description:
+    "Review the products and quantities currently in your shopping cart.",
+
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function CartPage() {
   const products = await getMenuProducts();
