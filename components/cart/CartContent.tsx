@@ -7,6 +7,11 @@ import type { Product } from "@/types/product";
 import { CartItem } from "./CartItem";
 import { EmptyCart } from "./EmptyCart";
 import { CartSkeleton } from "./CartSkeleton";
+import {
+  getCartItems,
+  getCartTotalQuantity,
+  getCartSubtotal,
+} from "@/lib/cart";
 
 interface CartContentProps {
   products: Product[];
@@ -21,22 +26,11 @@ export const CartContent = ({ products }: CartContentProps) => {
     return <CartSkeleton />;
   }
 
-  const cartItems = products
-    .filter((product) => items[product.id])
-    .map((product) => ({
-      product,
-      quantity: items[product.id],
-    }));
+  const cartItems = getCartItems(products, items);
 
-  const totalQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0,
-  );
+  const subtotal = getCartSubtotal(products, items);
 
-  const subtotal = cartItems.reduce(
-    (total, item) => total + item.product.price * item.quantity,
-    0,
-  );
+  const totalQuantity = getCartTotalQuantity(items);
 
   if (cartItems.length === 0) {
     return <EmptyCart />;
