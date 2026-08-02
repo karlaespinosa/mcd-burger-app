@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { getMenuProducts } from "@/lib/products";
-import { SITE_URL } from "@/constants/sitemap";
+import { SITE_URL } from "@/constants/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const products = await getMenuProducts();

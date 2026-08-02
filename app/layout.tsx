@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 
 import { Navbar } from "@/components";
-import { SITE_URL } from "@/constants/sitemap";
+import { SITE_URL } from "@/constants/site";
 
 import "./globals.css";
 
