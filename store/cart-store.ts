@@ -2,8 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 import type { CartStore } from "@/types/cart";
-
-const CART_STORAGE_KEY = "mcd-burger-cart";
+import { CART_STORAGE_KEY } from "@/constants/store";
 
 export const useCartStore = create<CartStore>()(
   persist(
