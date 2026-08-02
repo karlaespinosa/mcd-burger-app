@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,7 +6,7 @@ import Link from "next/link";
 import { formatPrice } from "@/lib/format-price";
 import { getMenuProductBySlug, getMenuProducts } from "@/lib/products";
 
-import { AddToCartButton } from "@/components";
+import { AddToCartButton, GoBackButton } from "@/components";
 
 interface Props {
   params: Promise<{
@@ -21,6 +22,52 @@ export async function generateStaticParams() {
   }));
 }
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getMenuProductBySlug(slug);
+
+  if (!product) {
+    return {
+      title: "Product not found",
+      description: "The requested product could not be found.",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  return {
+    title: product.name,
+
+    description: product.description,
+
+    alternates: {
+      canonical: `/products/${product.slug}`,
+    },
+
+    openGraph: {
+      type: "website",
+      title: product.name,
+      description: product.description,
+      url: `/products/${product.slug}`,
+      images: [
+        {
+          url: product.image,
+          alt: product.name,
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description: product.description,
+      images: [product.image],
+    },
+  };
+}
+
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
   const product = await getMenuProductBySlug(slug);
@@ -31,13 +78,7 @@ export default async function ProductPage({ params }: Props) {
     <main className="min-h-screen bg-black px-6 py-10 text-white">
       <article className="mx-auto max-w-4xl overflow-hidden rounded-3xl bg-neutral-900">
         <div className="p-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-neutral-300 transition hover:text-lime-400"
-          >
-            <span aria-hidden="true">←</span>
-            Go back
-          </Link>
+          <GoBackButton />
         </div>
 
         <div className="relative mx-6 aspect-video overflow-hidden rounded-2xl">
